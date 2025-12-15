@@ -109,6 +109,16 @@
   <!-- 2. On-Time % Orders vs Volume Orders -->
   <div class="card" id="od-behavior">
     <h2>2. On time % orders vs volume orders</h2>
+    <div class="chart-container">
+  <canvas id="onTimeVsOrdersChart"></canvas>
+</div>
+
+<p class="text-sm text-gray-700 mt-4">
+  This chart shows the relationship between <strong>On-Time Orders (0–40 min SLA)</strong>
+  and <strong>Total Order Volume</strong> over time, providing a combined view of
+  service reliability and demand dynamics.
+</p>
+   
     <!-- Content TBD -->
   </div>
 
@@ -278,5 +288,122 @@
   </div>
 
 </div>
+<!-- Grafica Card 2 --> 
+ <script>
+window.addEventListener('DOMContentLoaded', () => {
+  if (!window.Chart) return;
+  if (window.ChartDataLabels) {
+    Chart.register(ChartDataLabels);
+  }
+
+  const ctx = document.getElementById('onTimeVsOrdersChart');
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    data: {
+      labels: [
+        'Jan-2025', 'Feb-2025', 'Mar-2025',
+        'Apr-2025', 'May-2025', 'Jun-2025'
+      ],
+      datasets: [
+        {
+          type: 'line',
+          label: 'On-Time Orders % (0–40m SLA)',
+          data: [78, 81, 83, 85, 84, 86],
+          yAxisID: 'y',
+          borderColor: '#f59e0b',
+          backgroundColor: '#f59e0b',
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 5,
+          datalabels: {
+            align: 'top',
+            anchor: 'end',
+            formatter: v => v + '%'
+          }
+        },
+        {
+          type: 'bar',
+          label: 'Total Orders',
+          data: [4200, 4600, 5100, 5600, 5900, 6300],
+          yAxisID: 'y1',
+          backgroundColor: '#fde047',
+          borderColor: '#facc15',
+          borderWidth: 1,
+          datalabels: {
+            align: 'end',
+            anchor: 'end',
+            formatter: v => v.toLocaleString()
+          }
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              if (context.dataset.yAxisID === 'y') {
+                return ` ${context.dataset.label}: ${context.parsed.y}%`;
+              }
+              return ` ${context.dataset.label}: ${context.parsed.y.toLocaleString()}`;
+            }
+          }
+        },
+        datalabels: {
+          color: '#92400e',
+          font: {
+            weight: 'bold',
+            size: 10
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          position: 'left',
+          min: 0,
+          max: 100,
+          title: {
+            display: true,
+            text: 'On-Time Orders % (0–40m SLA)'
+          },
+          ticks: {
+            callback: v => v + '%'
+          }
+        },
+        y1: {
+          position: 'right',
+          grid: {
+            drawOnChartArea: false
+          },
+          title: {
+            display: true,
+            text: 'Total Orders'
+          },
+          ticks: {
+            callback: v => v.toLocaleString()
+          }
+        }
+      }
+    }
+  });
+});
+</script>
+
+ 
 </body>
 </html>
