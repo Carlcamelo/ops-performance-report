@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Required</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.1);
+      width: 320px;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.6rem;
+      background: #f59e0b;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Restricted Access</h2>
+  <p>Enter password to continue</p>
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Enter</button>
+  <p id="error" style="color:red; display:none;">Wrong password</p>
+</div>
+
+<script>
+  function login() {
+    const password = document.getElementById('password').value;
+
+    if (password === 'Q4-Offsite-2025') { // 🔑 CAMBIA ESTO
+      localStorage.setItem('auth', 'true');
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+</html>
