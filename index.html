@@ -195,14 +195,75 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!window.Chart) return;
   if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
-  /* ---------- Shared options ---------- */
-  function buildDualAxisOptions(rightLabel) {
+  // Visual standard (as agreed)
+  const GRAY_LINE = '#6B7280';     // On-Time line + legend + % labels
+  const AMBER_LABEL = '#92400e';   // Bar labels
+
+  // Data (2024 + 2025) — keep exactly as provided previously
+  const LABELS = [
+    "Jan-2024","Feb-2024","Mar-2024","Apr-2024","May-2024",
+    "Aug-2024","Sep-2024","Oct-2024","Nov-2024","Dec-2024",
+    "Jan-2025","Feb-2025","Mar-2025","Apr-2025","May-2025",
+    "Aug-2025","Sep-2025","Oct-2025","Nov-2025","Dec-2025"
+  ];
+
+  const ON_TIME = [
+    73.51,81.77,83.85,82.63,83.77,
+    62.75,60.33,62.28,65.01,64.83,
+    37.56,43.3,60.73,74.62,74.65,
+    59.29,67.16,77.7,81.4,78.11
+  ];
+
+  const TOTAL_ORDERS = [
+    8365,12769,8807,10493,1489,
+    2389,11604,12477,10070,6160,
+    10108,15542,11810,13362,3267,
+    3028,14376,14824,11789,5422
+  ];
+
+  const TOTAL_MILES = [
+    0,0,0,0,23,
+    53,516,3861,7140,3100,
+    11127,18719,17290,20241,8647,
+    7035,22371,30755,23876,12612
+  ];
+
+  const CAMPUS_OPERATIVE = [
+    28,27,26,27,21,
+    15,19,18,20,20,
+    18,19,19,19,16,
+    14,16,16,16,16
+  ];
+
+  // Shared options builder
+  function buildDualAxisOptions(rightLabel, liftLegend=false) {
     return {
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
+
+      // Only lift legend in Card 2 to prevent overlap with % labels
+      layout: liftLegend ? { padding: { top: 24 } } : {},
+
       plugins: {
-        datalabels: { color: '#92400e' }
+        legend: {
+          position: 'top',
+          labels: {
+            color: GRAY_LINE,
+            padding: liftLegend ? 22 : 12
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              if (context.dataset.yAxisID === 'y') {
+                return ` ${context.dataset.label}: ${context.parsed.y}%`;
+              }
+              return ` ${context.dataset.label}: ${context.parsed.y.toLocaleString()}`;
+            }
+          }
+        }
       },
+
       scales: {
         y: {
           position: 'left',
@@ -220,111 +281,95 @@ window.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  /* ---------- Card 2 ---------- */
+  // Dataset builders
+  function onTimeDataset() {
+    return {
+      type: 'line',
+      label: 'On-Time Orders %',
+      data: ON_TIME,
+      yAxisID: 'y',
+      borderColor: GRAY_LINE,
+      backgroundColor: GRAY_LINE,
+      tension: 0.3,
+      pointRadius: 4,
+      pointHoverRadius: 5,
+      datalabels: {
+        formatter: v => v + '%',
+        color: GRAY_LINE,
+        font: { size: 12, weight: 'bold' },
+        align: 'top',
+        anchor: 'end'
+      }
+    };
+  }
+
+  // Bars: default center labels; optional "special-case" for Feb-2025 in Card 2
+  function barDataset(label, data, formatter, specialCaseFeb2025=false) {
+    return {
+      type: 'bar',
+      label,
+      data,
+      yAxisID: 'y1',
+      backgroundColor: '#fde047',
+      borderColor: '#facc15',
+      borderWidth: 1,
+      datalabels: {
+        formatter,
+        color: AMBER_LABEL,
+        font: { size: 10, weight: 'normal' },
+        anchor: 'center',
+        align: (ctx) => {
+          if (specialCaseFeb2025 && LABELS[ctx.dataIndex] === 'Feb-2025') {
+            return 'bottom'; // move down ONLY for Card 2 / Feb-2025
+          }
+          return 'center';
+        }
+      }
+    };
+  }
+
+  // ---------- Card 2 ----------
   const ordersCtx = document.getElementById('onTimeVsOrdersChart');
   if (ordersCtx) {
     new Chart(ordersCtx, {
       data: {
-        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        labels: LABELS,
         datasets: [
-          {
-            type: 'line',
-            label: 'On-Time Orders %',
-            data: [78,81,83,85,84,86],
-            yAxisID: 'y',
-            borderColor: '#f59e0b',
-            backgroundColor: '#f59e0b',
-            tension: 0.3,
-            pointRadius: 4,
-            datalabels: {
-              formatter: v => v + '%',
-              font: { size: 12, weight: 'bold' }
-            }
-          },
-          {
-            type: 'bar',
-            label: 'Total Orders',
-            data: [4200,4600,5100,5600,5900,6300],
-            yAxisID: 'y1',
-            backgroundColor: '#fde047',
-            borderColor: '#facc15',
-            datalabels: { formatter: v => v.toLocaleString() }
-          }
+          onTimeDataset(),
+          barDataset('Total Orders', TOTAL_ORDERS, v => v.toLocaleString(), true)
         ]
       },
-      options: buildDualAxisOptions('Total Orders')
+      options: buildDualAxisOptions('Total Orders', true)
     });
   }
 
-  /* ---------- Card 4 ---------- */
+  // ---------- Card 4 ----------
   const milesCtx = document.getElementById('onTimeVsMilesChart');
   if (milesCtx) {
     new Chart(milesCtx, {
       data: {
-        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        labels: LABELS,
         datasets: [
-          {
-            type: 'line',
-            label: 'On-Time Orders %',
-            data: [78,81,83,85,84,86],
-            yAxisID: 'y',
-            borderColor: '#f59e0b',
-            backgroundColor: '#f59e0b',
-            tension: 0.3,
-            pointRadius: 4,
-            datalabels: {
-              formatter: v => v + '%',
-              font: { size: 12, weight: 'bold' }
-            }
-          },
-          {
-            type: 'bar',
-            label: 'Total Miles',
-            data: [1800,1950,2100,2250,2400,2600],
-            yAxisID: 'y1',
-            backgroundColor: '#fde047',
-            borderColor: '#facc15',
-            datalabels: { formatter: v => v + ' mi' }
-          }
+          onTimeDataset(),
+          barDataset('Total Miles', TOTAL_MILES, v => v.toLocaleString() + ' mi', false)
         ]
       },
-      options: buildDualAxisOptions('Total Miles')
+      options: buildDualAxisOptions('Total Miles', false)
     });
   }
 
-  /* ---------- Card 7 ---------- */
+  // ---------- Card 7 ----------
   const campusOpsCtx = document.getElementById('onTimeVsCampusOpsChart');
   if (campusOpsCtx) {
     new Chart(campusOpsCtx, {
       data: {
-        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        labels: LABELS,
         datasets: [
-          {
-            type: 'line',
-            label: 'On-Time Orders %',
-            data: [78,81,83,85,84,86],
-            yAxisID: 'y',
-            borderColor: '#f59e0b',
-            backgroundColor: '#f59e0b',
-            tension: 0.3,
-            pointRadius: 4,
-            datalabels: {
-              formatter: v => v + '%',
-              font: { size: 12, weight: 'bold' }
-            }
-          },
-          {
-            type: 'bar',
-            label: '# Campus Operative',
-            data: [6, 6, 7, 7, 8, 8],
-            yAxisID: 'y1',
-            backgroundColor: '#fde047',
-            borderColor: '#facc15',
-            datalabels: { formatter: v => v }
-          }
+          onTimeDataset(),
+          barDataset('# Campus Operative', CAMPUS_OPERATIVE, v => v, false)
         ]
       },
-      options: buildDualAxisOptions('# Campus Operative')
+      options: buildDualAxisOptions('# Campus Operative', false)
     });
   }
 });
