@@ -142,18 +142,45 @@ body {
     </div>
 
     <p class="text-sm text-gray-700 mt-4">
-      This chart compares <strong>On-Time Orders % (0–40m SLA)</strong> against
-      <strong>Total Miles driven</strong>, highlighting the impact of delivery distance
-      on service reliability.
+      Comparison between <strong>On-Time Orders %</strong> and <strong>Total Miles</strong>,
+      highlighting the impact of delivery distance on SLA performance.
     </p>
   </div>
 
-  <!-- Card 5–9 placeholders -->
-  <div class="card"><h2>5. On-Time % Orders (excluding charging time)</h2></div>
-  <div class="card"><h2>6. AVG Transit Times (Pickup → Customer)</h2></div>
-  <div class="card"><h2>7. On-Time % Orders vs # Campus Operative</h2></div>
-  <div class="card"><h2>8. NPS Customer Campus</h2></div>
-  <div class="card"><h2>9. Pains Sodexo and Plan</h2></div>
+  <!-- Card 5 -->
+  <div class="card">
+    <h2>5. On-Time % Orders (excluding charging time)</h2>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="card">
+    <h2>6. AVG Transit Times (Pickup → Customer)</h2>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="card" id="card-7">
+    <h2>7. On-Time % Orders vs # Campus Operative</h2>
+
+    <div class="chart-container">
+      <canvas id="onTimeVsCampusOpsChart"></canvas>
+    </div>
+
+    <p class="text-sm text-gray-700 mt-4">
+      This chart compares <strong>On-Time Orders % (0–40m SLA)</strong> against the
+      <strong>number of operative campuses</strong>, showing how operational scale
+      impacts service reliability.
+    </p>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="card">
+    <h2>8. NPS Customer Campus</h2>
+  </div>
+
+  <!-- Card 9 -->
+  <div class="card">
+    <h2>9. Pains Sodexo and Plan</h2>
+  </div>
 
   <!-- Actions -->
   <div class="no-print" style="display:flex; justify-content:flex-end;">
@@ -168,7 +195,32 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!window.Chart) return;
   if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
-  /* ---------- Card 2: On-Time % vs Volume Orders ---------- */
+  /* ---------- Shared options ---------- */
+  function buildDualAxisOptions(rightLabel) {
+    return {
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        datalabels: { color: '#92400e' }
+      },
+      scales: {
+        y: {
+          position: 'left',
+          min: 0,
+          max: 100,
+          ticks: { callback: v => v + '%' },
+          title: { display: true, text: 'On-Time Orders % (0–40m SLA)' }
+        },
+        y1: {
+          position: 'right',
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: rightLabel }
+        }
+      }
+    };
+  }
+
+  /* ---------- Card 2 ---------- */
   const ordersCtx = document.getElementById('onTimeVsOrdersChart');
   if (ordersCtx) {
     new Chart(ordersCtx, {
@@ -177,7 +229,7 @@ window.addEventListener('DOMContentLoaded', () => {
         datasets: [
           {
             type: 'line',
-            label: 'On-Time Orders % (0–40m SLA)',
+            label: 'On-Time Orders %',
             data: [78,81,83,85,84,86],
             yAxisID: 'y',
             borderColor: '#f59e0b',
@@ -196,17 +248,15 @@ window.addEventListener('DOMContentLoaded', () => {
             yAxisID: 'y1',
             backgroundColor: '#fde047',
             borderColor: '#facc15',
-            datalabels: {
-              formatter: v => v.toLocaleString()
-            }
+            datalabels: { formatter: v => v.toLocaleString() }
           }
         ]
       },
-      options: buildDualAxisOptions('%','Orders')
+      options: buildDualAxisOptions('Total Orders')
     });
   }
 
-  /* ---------- Card 4: On-Time % vs Total Miles ---------- */
+  /* ---------- Card 4 ---------- */
   const milesCtx = document.getElementById('onTimeVsMilesChart');
   if (milesCtx) {
     new Chart(milesCtx, {
@@ -215,7 +265,7 @@ window.addEventListener('DOMContentLoaded', () => {
         datasets: [
           {
             type: 'line',
-            label: 'On-Time Orders % (0–40m SLA)',
+            label: 'On-Time Orders %',
             data: [78,81,83,85,84,86],
             yAxisID: 'y',
             borderColor: '#f59e0b',
@@ -234,39 +284,48 @@ window.addEventListener('DOMContentLoaded', () => {
             yAxisID: 'y1',
             backgroundColor: '#fde047',
             borderColor: '#facc15',
-            datalabels: {
-              formatter: v => v + ' mi'
-            }
+            datalabels: { formatter: v => v + ' mi' }
           }
         ]
       },
-      options: buildDualAxisOptions('%','Miles')
+      options: buildDualAxisOptions('Total Miles')
     });
   }
 
-  /* ---------- Shared options ---------- */
-  function buildDualAxisOptions(leftSuffix, rightLabel) {
-    return {
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        datalabels: { color: '#92400e' }
+  /* ---------- Card 7 ---------- */
+  const campusOpsCtx = document.getElementById('onTimeVsCampusOpsChart');
+  if (campusOpsCtx) {
+    new Chart(campusOpsCtx, {
+      data: {
+        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        datasets: [
+          {
+            type: 'line',
+            label: 'On-Time Orders %',
+            data: [78,81,83,85,84,86],
+            yAxisID: 'y',
+            borderColor: '#f59e0b',
+            backgroundColor: '#f59e0b',
+            tension: 0.3,
+            pointRadius: 4,
+            datalabels: {
+              formatter: v => v + '%',
+              font: { size: 12, weight: 'bold' }
+            }
+          },
+          {
+            type: 'bar',
+            label: '# Campus Operative',
+            data: [6, 6, 7, 7, 8, 8],
+            yAxisID: 'y1',
+            backgroundColor: '#fde047',
+            borderColor: '#facc15',
+            datalabels: { formatter: v => v }
+          }
+        ]
       },
-      scales: {
-        y: {
-          position: 'left',
-          min: 0,
-          max: 100,
-          ticks: { callback: v => v + leftSuffix },
-          title: { display: true, text: 'On-Time Orders %' }
-        },
-        y1: {
-          position: 'right',
-          grid: { drawOnChartArea: false },
-          title: { display: true, text: rightLabel }
-        }
-      }
-    };
+      options: buildDualAxisOptions('# Campus Operative')
+    });
   }
 });
 </script>
