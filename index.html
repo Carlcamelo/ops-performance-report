@@ -104,8 +104,7 @@ body {
   <section class="card text-center" id="context">
     <h2>Report Context: On-Time Orders, NPS, and Growth Constraints</h2>
     <p class="text-sm text-gray-700">
-      This report uses <strong>On-Time Orders % (0–40 minute SLA)</strong> as the primary performance metric,
-      intentionally adopted as a strategic standard both internally and externally.
+      This report uses <strong>On-Time Orders % (0–40 minute SLA)</strong> as the primary performance metric.
       Performance is analyzed through dual-axis comparisons against operational drivers,
       complemented by NPS feedback and growth constraints identified by Sodexo.
     </p>
@@ -114,7 +113,6 @@ body {
   <!-- Card 1 -->
   <div class="card">
     <h2>1. On-Time % Orders vs # Ops</h2>
-    <!-- To be added -->
   </div>
 
   <!-- Card 2 -->
@@ -130,9 +128,27 @@ body {
     </p>
   </div>
 
-  <!-- Cards 3–9 (placeholders) -->
-  <div class="card"><h2>3. On-Time % Orders vs Fleet Availability</h2></div>
-  <div class="card"><h2>4. On-Time % Orders vs Distance</h2></div>
+  <!-- Card 3 -->
+  <div class="card">
+    <h2>3. On-Time % Orders vs Fleet Availability</h2>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="card" id="card-4">
+    <h2>4. On-Time % Orders vs Total Miles</h2>
+
+    <div class="chart-container">
+      <canvas id="onTimeVsMilesChart"></canvas>
+    </div>
+
+    <p class="text-sm text-gray-700 mt-4">
+      This chart compares <strong>On-Time Orders % (0–40m SLA)</strong> against
+      <strong>Total Miles driven</strong>, highlighting the impact of delivery distance
+      on service reliability.
+    </p>
+  </div>
+
+  <!-- Card 5–9 placeholders -->
   <div class="card"><h2>5. On-Time % Orders (excluding charging time)</h2></div>
   <div class="card"><h2>6. AVG Transit Times (Pickup → Customer)</h2></div>
   <div class="card"><h2>7. On-Time % Orders vs # Campus Operative</h2></div>
@@ -152,62 +168,106 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!window.Chart) return;
   if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
-  const ctx = document.getElementById('onTimeVsOrdersChart');
-  if (!ctx) return;
-
-  new Chart(ctx, {
-    data: {
-      labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
-      datasets: [
-        {
-          type: 'line',
-          label: 'On-Time Orders % (0–40m SLA)',
-          data: [78,81,83,85,84,86],
-          yAxisID: 'y',
-          borderColor: '#f59e0b',
-          backgroundColor: '#f59e0b',
-          tension: 0.3,
-          pointRadius: 4,
-          datalabels: {
-  formatter: v => v + '%',
-  font: {
-    size: 12,
-    weight: 'bold'
+  /* ---------- Card 2: On-Time % vs Volume Orders ---------- */
+  const ordersCtx = document.getElementById('onTimeVsOrdersChart');
+  if (ordersCtx) {
+    new Chart(ordersCtx, {
+      data: {
+        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        datasets: [
+          {
+            type: 'line',
+            label: 'On-Time Orders % (0–40m SLA)',
+            data: [78,81,83,85,84,86],
+            yAxisID: 'y',
+            borderColor: '#f59e0b',
+            backgroundColor: '#f59e0b',
+            tension: 0.3,
+            pointRadius: 4,
+            datalabels: {
+              formatter: v => v + '%',
+              font: { size: 12, weight: 'bold' }
+            }
+          },
+          {
+            type: 'bar',
+            label: 'Total Orders',
+            data: [4200,4600,5100,5600,5900,6300],
+            yAxisID: 'y1',
+            backgroundColor: '#fde047',
+            borderColor: '#facc15',
+            datalabels: {
+              formatter: v => v.toLocaleString()
+            }
+          }
+        ]
+      },
+      options: buildDualAxisOptions('%','Orders')
+    });
   }
-}
-        },
-        {
-          type: 'bar',
-          label: 'Total Orders',
-          data: [4200,4600,5100,5600,5900,6300],
-          yAxisID: 'y1',
-          backgroundColor: '#fde047',
-          borderColor: '#facc15',
-          datalabels: { formatter: v => v.toLocaleString() }
-        }
-      ]
-    },
-    options: {
+
+  /* ---------- Card 4: On-Time % vs Total Miles ---------- */
+  const milesCtx = document.getElementById('onTimeVsMilesChart');
+  if (milesCtx) {
+    new Chart(milesCtx, {
+      data: {
+        labels: ['Jan-2025','Feb-2025','Mar-2025','Apr-2025','May-2025','Jun-2025'],
+        datasets: [
+          {
+            type: 'line',
+            label: 'On-Time Orders % (0–40m SLA)',
+            data: [78,81,83,85,84,86],
+            yAxisID: 'y',
+            borderColor: '#f59e0b',
+            backgroundColor: '#f59e0b',
+            tension: 0.3,
+            pointRadius: 4,
+            datalabels: {
+              formatter: v => v + '%',
+              font: { size: 12, weight: 'bold' }
+            }
+          },
+          {
+            type: 'bar',
+            label: 'Total Miles',
+            data: [1800,1950,2100,2250,2400,2600],
+            yAxisID: 'y1',
+            backgroundColor: '#fde047',
+            borderColor: '#facc15',
+            datalabels: {
+              formatter: v => v + ' mi'
+            }
+          }
+        ]
+      },
+      options: buildDualAxisOptions('%','Miles')
+    });
+  }
+
+  /* ---------- Shared options ---------- */
+  function buildDualAxisOptions(leftSuffix, rightLabel) {
+    return {
       maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        datalabels: { color: '#92400e', font: { weight: 'bold', size: 10 } }
+        datalabels: { color: '#92400e' }
       },
       scales: {
         y: {
           position: 'left',
           min: 0,
           max: 100,
-          ticks: { callback: v => v + '%' },
+          ticks: { callback: v => v + leftSuffix },
           title: { display: true, text: 'On-Time Orders %' }
         },
         y1: {
           position: 'right',
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Total Orders' }
+          title: { display: true, text: rightLabel }
         }
       }
-    }
-  });
+    };
+  }
 });
 </script>
 
