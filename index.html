@@ -196,10 +196,20 @@ body {
   </p>
 </div>
 
-  <!-- Card 6 -->
-  <div class="card">
-    <h2>6. AVG Transit Times (Pickup → Customer)</h2>
+<!-- Card 6 -->
+<div class="card" id="card-6">
+  <h2>6. AVG Transit Times (Pickup → Customer)</h2>
+
+  <div class="chart-container">
+    <canvas id="avgTransitTimesChart"></canvas>
   </div>
+
+  <p class="text-sm text-gray-700 mt-4">
+    This view compares average in-transit time against average end-to-end delivery time.
+    When both move together, SLA pressure is driven by movement and routing; when delivery time
+    increases disproportionately, the gap indicates pre-dispatch constraints (pickup readiness / loading).
+  </p>
+</div>
 
   <!-- Card 7 -->
   <div class="card" id="card-7">
@@ -621,6 +631,91 @@ if (kitchenCtx) {
   });
 }
 
+// ---------- Card 6: AVG Transit Times (Pickup → Customer) ----------
+const transitCtx = document.getElementById('avgTransitTimesChart');
+if (transitCtx) {
+
+  // EXACT data (no rounding / no modification) from: OPS - data_set_report_Q4_25 - Tablas Report (5).csv
+  const AVG_IN_TRANSIT_TIME = [
+    13.42, 13.67, 12.65, 12.25, 13.67,
+    14.13, 15.14, 15.44, 14.97, 14.35,
+    20.13, 19.54, 16.91, 15.89, 16.65,
+    17.61, 18.16, 16.85, 15.67, 15.77
+  ];
+
+  const AVG_DELIVERY_TIME = [
+    30.96, 30.79, 29.4, 29.4, 30.17,
+    30.45, 37.72, 35.76, 35.12, 34.94,
+    45.62, 43.54, 35.71, 33.87, 33.72,
+    36.88, 35.27, 31.95, 30.4, 31.54
+  ];
+
+  new Chart(transitCtx, {
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          type: 'line',
+          label: 'Avg In-Transit Time (min)',
+          data: AVG_IN_TRANSIT_TIME,
+          borderColor: GRAY_LINE,
+          backgroundColor: GRAY_LINE,
+          tension: 0.3,
+          pointRadius: 4,
+          datalabels: {
+            formatter: v => v + 'm',     // displays exact value (e.g., 29.4)
+            color: GRAY_LINE,
+            font: { size: 12, weight: 'bold' },
+            align: 'bottom',
+            anchor: 'end',
+            offset: 6
+          }
+        },
+        {
+          type: 'line',
+          label: 'Avg Delivery Time (min)',
+          data: AVG_DELIVERY_TIME,
+          borderColor: '#f59e0b',
+          backgroundColor: '#f59e0b',
+          tension: 0.3,
+          pointRadius: 4,
+          borderDash: [6, 4],
+          datalabels: {
+            formatter: v => v + 'm',
+            color: '#92400e',
+            font: { size: 12, weight: 'bold' },
+            align: 'bottom',
+            anchor: 'end',
+            offset: 6
+          }
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          fullSize: true,
+          align: 'start',
+          labels: {
+            color: '#374151',
+            padding: 40
+          }
+        }
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 50,
+          ticks: { callback: v => v + 'm' },
+          title: { display: true, text: 'Minutes' }
+        }
+      }
+    }
+  });
+}
 
 
   
