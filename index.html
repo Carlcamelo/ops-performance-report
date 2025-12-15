@@ -202,6 +202,7 @@ body {
 
   <div class="chart-container">
     <canvas id="avgTransitTimesChart"></canvas>
+    
   </div>
 
   <p class="text-sm text-gray-700 mt-4">
@@ -212,9 +213,22 @@ body {
 </div>
 
 <!-- Card 7 -->
-  <div class="card">
-    <h2>7. % per agent journey delivery</h2>
+<div class="card" id="card-7">
+  <h2>7. Responsibility Split vs Avg Delivery Time</h2>
+
+  <!-- Chart 7A: Avg Transit vs Avg Delivery Time -->
+  <div class="chart-container">
+    <canvas id="responsibilityStackedChart"></canvas>
   </div>
+
+
+  <p class="text-sm text-gray-700 mt-4">
+    This breakdown shows proportional responsibility by month relative to average delivery time.
+    While we continue optimizing internal processes, robot speed is not a scalable lever.
+    A material share of delivery-time variability is driven by kitchen/loading execution
+    and customer readiness, where Sodexo and campus-side operations play a direct role.
+  </p>
+</div>
 
   <!-- Card 8 -->
   <div class="card" id="card-8">
@@ -722,11 +736,123 @@ if (transitCtx) {
   });
 }
 
+// ---------- Card 7: Responsibility Split (STACKED %) ----------
+const respCanvas = document.getElementById('responsibilityStackedChart');
+if (respCanvas) {
+
+  // EXACT data (no modifications)
+  const PCT_ROBOT = [
+    49, 52, 49, 49, 51,
+    55, 53, 49, 47, 46,
+    56, 55, 53, 54, 57,
+    58, 61, 61, 54, 52
+  ];
+
+  const PCT_SODEXO = [
+    40, 37, 39, 40, 37,
+    33, 36, 40, 42, 43,
+    36, 42, 42, 39, 40,
+    42, 36, 35, 36, 37
+  ];
+
+  const PCT_CUSTOMER = [
+    12, 12, 12, 12, 12,
+    12, 10, 11, 11, 11,
+    10, 9, 10, 12, 10,
+    10, 11, 12, 12, 12
+  ];
+
+  new Chart(respCanvas, {
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Robot (%)',
+          data: PCT_ROBOT,
+          stack: 'resp',
+          backgroundColor: '#6B7280', // gray
+          borderWidth: 0,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#111827',
+            font: { size: 10, weight: 'bold' },
+            anchor: 'center',
+            align: 'center'
+          }
+        },
+        {
+          type: 'bar',
+          label: 'Sodexo (%)',
+          data: PCT_SODEXO,
+          stack: 'resp',
+          backgroundColor: '#f59e0b', // amber
+          borderWidth: 0,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#111827',
+            font: { size: 10, weight: 'bold' },
+            anchor: 'center',
+            align: 'center'
+          }
+        },
+        {
+          type: 'bar',
+          label: 'Customer (%)',
+          data: PCT_CUSTOMER,
+          stack: 'resp',
+          backgroundColor: '#93c5fd', // 🔵 light blue
+          borderWidth: 0,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#111827',
+            font: { size: 10, weight: 'bold' },
+            anchor: 'center',
+            align: 'center'
+          }
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          fullSize: true,
+          align: 'start',
+          labels: {
+            color: '#374151',
+            padding: 32
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
+          }
+        }
+      },
+      scales: {
+        y: {
+          stacked: true,
+          min: 0,
+          max: 110,
+          ticks: { callback: v => v + '%' },
+          title: { display: true, text: 'Responsibility split (%)' }
+        }
+      }
+    }
+  });
+}
 
   
 
   
 });
+
+
+
+
 </script>
 
 </body>
