@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Report Offsite Q4 2025"/>
+<title>Report Offsite Q4 2025</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f9fafb;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.container { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+.card {
+  background: #fff;
+  border-radius: 0.8rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cover-slide {
+  text-align: center;
+  padding: 2.5rem;
+  background-color: #fffbeb;
+  border-radius: 1rem;
+  border: 1px solid #fde68a;
+}
+
+.cover-slide h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #b45309;
+}
+
+.cover-slide .meta {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.btn-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  min-width: 220px;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid #f59e0b;
+  border-radius: 0.8rem;
+  background: #fff7ed;
+  cursor: pointer;
+  font-weight: 800;
+  color: #92400e;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.btn:hover { background: #ffedd5; transform: translateY(-1px); }
+
+.btn.secondary {
+  border-color: #d1d5db;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn.secondary:hover { background: #e5e7eb; }
+</style>
+</head>
+
+<body>
+
+<script>
+  // ✅ Protect intro page too
+  if (localStorage.getItem('auth') !== 'true') {
+    window.location.href = 'login.html';
+  }
+</script>
+
+<!-- Logo (same as index) -->
+<div style="display:flex; justify-content:center; margin:2rem 0;">
+  <img src="logo.png" alt="robot.com logo" style="height:56px;">
+</div>
+
+<div class="container">
+  <div class="cover-slide">
+    <h1>Report Offsite Q4 2025</h1>
+    <p class="meta">Select a report section</p>
+
+    <div class="btn-row">
+      <button class="btn" onclick="window.location.href='index.html'">
+        Robotics Delivery
+      </button>
+
+      <button class="btn secondary" onclick="window.location.href='media.html'">
+        Media
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
