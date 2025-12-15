@@ -117,6 +117,12 @@ body {
 </style>
 </head>
 
+<script>
+  if (localStorage.getItem('auth') !== 'true') {
+    window.location.href = 'login.html';
+  }
+</script>
+
 <body>
 
 <!-- Logo -->
