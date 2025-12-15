@@ -168,7 +168,13 @@ window.addEventListener('DOMContentLoaded', () => {
           backgroundColor: '#f59e0b',
           tension: 0.3,
           pointRadius: 4,
-          datalabels: { formatter: v => v + '%' }
+          datalabels: {
+  formatter: v => v + '%',
+  font: {
+    size: 12,
+    weight: 'bold'
+  }
+}
         },
         {
           type: 'bar',
