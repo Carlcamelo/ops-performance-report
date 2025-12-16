@@ -344,15 +344,15 @@ body {
   <div class="card" id="card-10">
     <h2>10. Defect rate</h2>
 
-    <div class="chart-container">
-      <canvas id="onTimeVsCampusOpsChart"></canvas>
-    </div>
+<div class="chart-container">
+  <canvas id="incompleteCanceledVsDefectChart"></canvas>
+</div>
 
-    <p class="text-sm text-gray-700 mt-4">
-      This chart compares <strong>On-Time Orders % (0–40m SLA)</strong> against the
-      <strong>number of operative campuses</strong>, showing how operational scale
-      impacts service reliability.
-    </p>
+<p class="text-sm text-gray-700 mt-4">
+  This view separates <strong>order quality outcomes</strong> (Incompleted and Canceled rates) from the broader
+  <strong>Defect Rate</strong>. Incompleted/Canceled are shown as bars to highlight the operational mix each month,
+  while the Defect Rate trend line shows whether overall experience quality is improving or degrading over time.
+</p>
   </div>
 
 
@@ -1310,7 +1310,122 @@ if (npsCanvas) {
     }
   });
 }
-  
+
+
+
+// ---------- Card 10: Incompleted & Canceled % (bars) vs Defect Rate (line) ----------
+const icdCanvas = document.getElementById('incompleteCanceledVsDefectChart');
+if (icdCanvas) {
+
+  // EXACT data from: OPS - data_set_report_Q4_25 - Tablas Report (11).csv
+  const IC_LABELS = [
+    "Jan/2024","Feb/2024","Mar/2024","Apr/2024","May/2024",
+    "Aug/2024","Sep/2024","Oct/2024","Nov/2024","Dec/2024",
+    "Jan/2025","Feb/2025","Mar/2025","Apr/2025","May/2025",
+    "Aug/2025","Sep/2025","Oct/2025","Nov/2025","Dec/2025"
+  ];
+
+  const DEFECT_RATE = [6.5,5.4,6.7,5.5,8.1, 6.4,6.0,6.4,6.1,6.5, 8.4,6.9,7.7,6.2,5.1, 6.6,6.0,6.0,6.4,5.6];
+  const INCOMPLETED = [1.5,1.5,1.4,1.5,1.5, 1.6,1.7,2.2,2.1,1.8, 2.9,2.2,2.1,1.7,1.6, 2.0,1.7,1.6,1.7,1.5];
+  const CANCELED    = [5.0,3.9,5.3,4.0,6.6, 4.8,4.3,4.2,4.0,4.7, 5.5,4.7,5.6,4.5,3.5, 4.6,4.3,4.4,4.7,4.1];
+
+  new Chart(icdCanvas, {
+    data: {
+      labels: IC_LABELS,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Incompleted %',
+          data: INCOMPLETED,
+          yAxisID: 'y',
+          backgroundColor: '#fde047',
+          borderColor: '#facc15',
+          borderWidth: 1,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#92400e',
+            font: { size: 10, weight: 'bold' },
+            anchor: 'center',
+            align: 'center'
+          }
+        },
+        {
+          type: 'bar',
+          label: 'Canceled %',
+          data: CANCELED,
+          yAxisID: 'y',
+          backgroundColor: '#fbbf24',
+          borderColor: '#f59e0b',
+          borderWidth: 1,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#92400e',
+            font: { size: 10, weight: 'bold' },
+            anchor: 'center',
+            align: 'center'
+          }
+        },
+        {
+          type: 'line',
+          label: 'Defect Rate',
+          data: DEFECT_RATE,
+          yAxisID: 'y1',
+          borderColor: '#6B7280',
+          backgroundColor: '#6B7280',
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 5,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#6B7280',
+            font: { size: 11, weight: 'bold' },
+            align: 'top',
+            anchor: 'end',
+            offset: 4
+          }
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          fullSize: true,
+          align: 'start',
+          labels: { color: '#374151', padding: 28 }
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          offset: true,
+          ticks: { padding: 10 }
+        },
+        y: {
+          position: 'left',
+          min: 0,
+          max: 10,
+          ticks: { callback: v => v + '%' },
+          title: { display: true, text: 'Incompleted % / Canceled %' }
+        },
+        y1: {
+          position: 'right',
+          min: 0,
+          max: 10,
+          grid: { drawOnChartArea: false },
+          ticks: { callback: v => v + '%' },
+          title: { display: true, text: 'Defect Rate (%)' }
+        }
+      }
+    }
+  });
+}
   
 });
 
