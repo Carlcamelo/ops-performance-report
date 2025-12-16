@@ -151,16 +151,16 @@ body {
 
 <!-- Card 1 -->
 <div class="card" id="card-1">
-  <h2>1. On-Time % Orders vs # Ops</h2>
+  <h2>1. On-Time % Orders vs Headcount Field OPS</h2>
 
   <div class="chart-container">
     <canvas id="onTimeVsOpsChart"></canvas>
   </div>
 
   <p class="text-sm text-gray-700 mt-4">
-    This chart compares On-Time Orders % (0–40m SLA) against the number of active operations.
-    While internal execution impacts SLA, increased operational load without proportional
-    capacity adjustments can introduce variability in service performance.
+    This chart compares On-Time Orders % (0–40m SLA) against Field Ops headcount over time.
+    It helps assess whether service reliability is moving consistently with staffing capacity
+    and highlights periods where SLA volatility may require operational adjustments beyond staffing.
   </p>
 </div>
 
@@ -862,16 +862,16 @@ if (respCanvas) {
   });
 }
 
-// ---------- Card 1: On-Time % Orders vs # Ops ----------
+// ---------- Card 1: On-Time % Orders vs Headcount Field OPS ----------
 const opsCanvas = document.getElementById('onTimeVsOpsChart');
 if (opsCanvas) {
 
-  // EXACT data from: OPS - data_set_report_Q4_25 - Tablas Report (8).csv
-  const OPS_COUNT = [
-    24, 24, 24, 24, 22,
-    22, 22, 22, 22, 22,
-    21, 21, 21, 21, 21,
-    20, 20, 20, 20, 20
+  // EXACT data from: OPS - data_set_report_Q4_25 - Tablas Report (9).csv
+  const FIELD_OPS_HEADCOUNT = [
+    46, 46, 46, 46, 46,
+    32, 32, 32, 32, 32,
+    29, 29, 29, 29, 29,
+    27, 27, 27, 27, 27
   ];
 
   new Chart(opsCanvas, {
@@ -897,8 +897,8 @@ if (opsCanvas) {
         },
         {
           type: 'bar',
-          label: '# Ops',
-          data: OPS_COUNT,
+          label: 'Headcount Field OPS',
+          data: FIELD_OPS_HEADCOUNT,
           yAxisID: 'y1',
           backgroundColor: '#fde047',
           borderColor: '#facc15',
@@ -938,7 +938,7 @@ if (opsCanvas) {
         y1: {
           position: 'right',
           grid: { drawOnChartArea: false },
-          title: { display: true, text: '# Ops' }
+          title: { display: true, text: 'Headcount Field OPS' }
         }
       }
     }
