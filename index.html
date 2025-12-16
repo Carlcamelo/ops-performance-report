@@ -272,15 +272,19 @@ body {
     </p>
   </div>
 
-  <div class="chart-container">
-  <canvas id="npsCampusChart"></canvas>
-</div>
+<!-- Card 9 -->
+<div class="card" id="card-9">
+  <h2>9. NPS Customer Campus</h2>
 
-<p class="text-sm text-gray-700 mt-4">
-  NPS trend by semester, paired with response volume to contextualize score stability.
-  The shift from negative to positive NPS reflects structural improvements in service
-  reliability and campus execution, rather than isolated sentiment changes.
-</p>
+  <div class="chart-container">
+    <canvas id="npsCampusChart"></canvas>
+  </div>
+
+  <p class="text-sm text-gray-700 mt-4">
+    NPS trend by semester paired with response volume to contextualize confidence. The 0-point reference
+    line highlights the shift from negative to positive sentiment since 2024 Fall.
+  </p>
+</div>
 
   <!-- Card 10 -->
   <div class="card">
@@ -1044,32 +1048,38 @@ if (fleetCanvas) {
   });
 }
 
-// ---------- Card 9: NPS Customer Campus ----------
+// ---------- Card 9: NPS Customer Campus (Executive) ----------
 const npsCanvas = document.getElementById('npsCampusChart');
 if (npsCanvas) {
 
-  const NPS_LABELS = [
-    '2023 Fall',
-    '2024 Spring',
-    '2024 Fall',
-    '2025 Spring'
-  ];
+  const NPS_LABELS = ['2023 Fall', '2024 Spring', '2024 Fall', '2025 Spring'];
+  const NPS_SCORE  = [-22.22, -21.21, 33.3, 50];
+  const NPS_RESPONSES = [27, 33, 15, 16];
 
-  const NPS_SCORE = [
-    -22.22,
-    -21.21,
-    33.3,
-    50
-  ];
+  // Plugin: horizontal reference line at NPS = 0
+  const zeroLinePlugin = {
+    id: 'npsZeroLine',
+    afterDraw(chart) {
+      const { ctx, scales } = chart;
+      const y = scales.y;
+      if (!y) return;
 
-  const NPS_RESPONSES = [
-    27,
-    33,
-    15,
-    16
-  ];
+      const yZero = y.getPixelForValue(0);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6, 4]);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#9CA3AF'; // neutral gray
+      ctx.moveTo(chart.chartArea.left, yZero);
+      ctx.lineTo(chart.chartArea.right, yZero);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
 
   new Chart(npsCanvas, {
+    plugins: [zeroLinePlugin],
     data: {
       labels: NPS_LABELS,
       datasets: [
@@ -1082,12 +1092,14 @@ if (npsCanvas) {
           backgroundColor: '#6B7280',
           tension: 0.3,
           pointRadius: 5,
+          pointHoverRadius: 6,
           datalabels: {
-            formatter: v => v,
+            formatter: v => (Math.round(v * 10) / 10).toString(),
             color: '#6B7280',
             font: { size: 12, weight: 'bold' },
             align: 'top',
-            anchor: 'end'
+            anchor: 'end',
+            offset: 4
           }
         },
         {
@@ -1095,13 +1107,13 @@ if (npsCanvas) {
           label: '# Responses',
           data: NPS_RESPONSES,
           yAxisID: 'y1',
-          backgroundColor: '#fde047',
-          borderColor: '#facc15',
+          backgroundColor: '#FDE68A', // softer amber
+          borderColor: '#F59E0B',
           borderWidth: 1,
           datalabels: {
             formatter: v => v,
             color: '#92400e',
-            font: { size: 10 },
+            font: { size: 10, weight: 'bold' },
             anchor: 'center',
             align: 'center'
           }
@@ -1116,10 +1128,7 @@ if (npsCanvas) {
           position: 'top',
           fullSize: true,
           align: 'start',
-          labels: {
-            color: '#374151',
-            padding: 28
-          }
+          labels: { color: '#374151', padding: 28 }
         }
       },
       scales: {
@@ -1127,7 +1136,7 @@ if (npsCanvas) {
           position: 'left',
           min: -100,
           max: 100,
-          ticks: { callback: v => v },
+          ticks: { stepSize: 25 },
           title: { display: true, text: 'NPS Score' }
         },
         y1: {
