@@ -272,10 +272,15 @@ body {
     </p>
   </div>
 
-  <!-- Card 9 -->
-  <div class="card">
-    <h2>9. NPS Customer Campus</h2>
-  </div>
+  <div class="chart-container">
+  <canvas id="npsCampusChart"></canvas>
+</div>
+
+<p class="text-sm text-gray-700 mt-4">
+  NPS trend by semester, paired with response volume to contextualize score stability.
+  The shift from negative to positive NPS reflects structural improvements in service
+  reliability and campus execution, rather than isolated sentiment changes.
+</p>
 
   <!-- Card 10 -->
   <div class="card">
@@ -1039,6 +1044,102 @@ if (fleetCanvas) {
   });
 }
 
+// ---------- Card 9: NPS Customer Campus ----------
+const npsCanvas = document.getElementById('npsCampusChart');
+if (npsCanvas) {
+
+  const NPS_LABELS = [
+    '2023 Fall',
+    '2024 Spring',
+    '2024 Fall',
+    '2025 Spring'
+  ];
+
+  const NPS_SCORE = [
+    -22.22,
+    -21.21,
+    33.3,
+    50
+  ];
+
+  const NPS_RESPONSES = [
+    27,
+    33,
+    15,
+    16
+  ];
+
+  new Chart(npsCanvas, {
+    data: {
+      labels: NPS_LABELS,
+      datasets: [
+        {
+          type: 'line',
+          label: 'NPS Score',
+          data: NPS_SCORE,
+          yAxisID: 'y',
+          borderColor: '#6B7280',
+          backgroundColor: '#6B7280',
+          tension: 0.3,
+          pointRadius: 5,
+          datalabels: {
+            formatter: v => v,
+            color: '#6B7280',
+            font: { size: 12, weight: 'bold' },
+            align: 'top',
+            anchor: 'end'
+          }
+        },
+        {
+          type: 'bar',
+          label: '# Responses',
+          data: NPS_RESPONSES,
+          yAxisID: 'y1',
+          backgroundColor: '#fde047',
+          borderColor: '#facc15',
+          borderWidth: 1,
+          datalabels: {
+            formatter: v => v,
+            color: '#92400e',
+            font: { size: 10 },
+            anchor: 'center',
+            align: 'center'
+          }
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          fullSize: true,
+          align: 'start',
+          labels: {
+            color: '#374151',
+            padding: 28
+          }
+        }
+      },
+      scales: {
+        y: {
+          position: 'left',
+          min: -100,
+          max: 100,
+          ticks: { callback: v => v },
+          title: { display: true, text: 'NPS Score' }
+        },
+        y1: {
+          position: 'right',
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: '# Responses' }
+        }
+      }
+    }
+  });
+}
+  
   
 });
 
