@@ -1076,25 +1076,24 @@ if (fleetCanvas) {
             anchor: 'end'
           }
         },
-{
-  type: 'line',
-  label: 'Fleet Availability',
-  data: FLEET_AVAILABILITY,
-  yAxisID: 'y1',
-  borderColor: '#f59e0b',
-  backgroundColor: '#f59e0b',
-  tension: 0.3,
-  pointRadius: 4,
-  pointHoverRadius: 5,
-  datalabels: {
-    formatter: v => v + '%',
-    color: '#92400e',
-    font: { size: 10, weight: 'bold' },
-    align: 'bottom',
-    anchor: 'end',
-    offset: 4
-  }
-}
+        {
+          type: 'line',
+          label: 'Fleet Availability',
+          data: FLEET_AVAILABILITY,
+          yAxisID: 'y1',
+          borderColor: '#f59e0b',
+          backgroundColor: '#f59e0b',
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 5,
+          datalabels: {
+            formatter: v => v + '%',
+            color: '#92400e',
+            font: { size: 10, weight: 'bold' },
+            align: 'bottom',
+            anchor: 'end',
+            offset: 4
+          }
         }
       ]
     },
