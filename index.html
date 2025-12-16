@@ -1103,19 +1103,20 @@ if (npsCanvas) {
           }
         },
         {
-          type: 'bar',
-          label: '# Responses',
-          data: NPS_RESPONSES,
-          yAxisID: 'y1',
-          backgroundColor: '#FDE68A', // softer amber
-          borderColor: '#F59E0B',
-          borderWidth: 1,
-          datalabels: {
-            formatter: v => v,
-            color: '#92400e',
-            font: { size: 10, weight: 'bold' },
-            anchor: 'center',
-            align: 'center'
+  type: 'bar',
+  label: '# Responses',
+  data: NPS_RESPONSES,
+  yAxisID: 'y1',
+  backgroundColor: '#fde047',   // ✅ MISMO amarillo del resto
+  borderColor: '#facc15',
+  borderWidth: 1,
+  datalabels: {
+    formatter: v => v,
+    color: '#92400e',
+    font: { size: 10, weight: 'bold' },
+    anchor: 'end',              // 👈 evita cruce con eje 0
+    align: 'bottom',            // 👈 empuja el texto hacia abajo
+    offset: 6
           }
         }
       ]
