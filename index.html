@@ -1350,19 +1350,19 @@ if (icdCanvas) {
           }
         },
         {
-          type: 'bar',
-          label: 'Canceled %',
-          data: CANCELED,
-          yAxisID: 'y',
-          backgroundColor: '#fbbf24',
-          borderColor: '#f59e0b',
-          borderWidth: 1,
-          datalabels: {
-            formatter: v => v + '%',
-            color: '#92400e',
-            font: { size: 10, weight: 'bold' },
-            anchor: 'center',
-            align: 'center'
+  type: 'bar',
+  label: 'Canceled %',
+  data: CANCELED,
+  yAxisID: 'y',
+  backgroundColor: '#fecaca',   // rojo claro (no agresivo)
+  borderColor: '#ef4444',       // rojo sólido
+  borderWidth: 1,
+  datalabels: {
+    formatter: v => v + '%',
+    color: '#7f1d1d',            // rojo oscuro para legibilidad
+    font: { size: 10, weight: 'bold' },
+    anchor: 'center',
+    align: 'center'
           }
         },
         {
