@@ -139,15 +139,62 @@ body {
     <p class="meta">Prepared by: Sergio Pachón · Andres Severino · Carlos Camelo</p>
   </div>
 
-  <!-- Context -->
-  <section class="card text-center" id="context">
-    <h2>Report Context: On-Time Orders, NPS, and Growth Constraints</h2>
-    <p class="text-sm text-gray-700">
-      This report uses <strong>On-Time Orders % (0–40 minute SLA)</strong> as the primary performance metric.
-      Performance is analyzed through dual-axis comparisons against operational drivers,
-      complemented by NPS feedback and growth constraints identified by Sodexo.
-    </p>
-  </section>
+<!-- Context -->
+<section class="card text-center" id="context">
+  <h2>Report Context: On-Time Orders, NPS, and Growth Constraints</h2>
+
+  <p class="text-sm text-gray-700">
+    This report uses <strong>On-Time Orders % (0–40 minute SLA)</strong> as the primary performance
+    metric, as this threshold is the most representative of both internal operational health and
+    customer-facing experience. Performance is analyzed through <strong>dual-axis comparisons</strong>
+    against key operational variables to provide a holistic, high-level view of system behavior.
+    <br><br>
+    In addition, the report incorporates <strong>NPS feedback</strong> collected from campus General
+    Managers, as well as <strong>operational constraints and growth limitations</strong> reported by
+    Sodexo that have impacted campus-level performance and scalability.
+    <br><br>
+    The data presented in this report was requested from the <strong>Data team</strong>, who applied
+    specific filtering and aggregation criteria within the dashboards to ensure the information was
+    <strong>actionable, comparable across variables, and suitable for answering internally defined
+    high-level questions</strong>.
+  </p>
+
+  <div class="mt-4" style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
+    <a
+      href="https://docs.google.com/spreadsheets/d/1D5dMicrrhSE42FY2sfrZ11dXTm9cC2TJFoh_D1Ryp7Y/edit?usp=sharing"
+      target="_blank"
+      class="btn"
+      style="padding:0.45rem 0.7rem; font-size:0.8rem;"
+    >
+      Data Set
+    </a>
+
+    <a
+      href="https://data-team.metabaseapp.com/dashboard/68-kiwibot-distance-duration-dashboard?campus=&date=thisquarter&robot_version=&robots=&tab=106-1%EF%B8%8F%E2%83%A3-breakdown&time_grouping="
+      target="_blank"
+      class="btn"
+      style="padding:0.45rem 0.7rem; font-size:0.8rem;"
+    >
+      Distance & Duration Dashboard
+    </a>
+
+    <a
+      href="https://data-team.metabaseapp.com/dashboard/10-historical-orders-dashboard?campus=&date_range=past6months&restaurant_name=&robot_id=&scheduled=&tab=26-times&time_grouping="
+      target="_blank"
+      class="btn"
+      style="padding:0.45rem 0.7rem; font-size:0.8rem;"
+    >
+      Historical Orders & SLAs
+    </a>
+  </div>
+
+  <p class="text-sm text-gray-700 mt-4">
+    <em>
+      Disclaimer: Some months present partial or missing data due to availability limitations
+      in upstream sources and filtering criteria applied at the dashboard level.
+    </em>
+  </p>
+</section>
 
 <!-- Card 1 -->
 <div class="card" id="card-1">
