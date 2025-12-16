@@ -637,21 +637,18 @@ function lineDataset(label, data, formatter) {
 const ordersCtx = document.getElementById('onTimeVsOrdersChart');
 if (ordersCtx) {
 
-  // Replace with EXACT values from semster.csv (same order across arrays)
+  // Exact values from semster.csv (kept in chronological order)
   const SEMESTER_LABELS = [
-    '2023 Fall',
-    '2024 Spring',
-    '2024 Fall',
-    '2025 Spring'
+    'Semester 1 / 24',
+    'Semester 2 / 24',
+    'Semester 1 / 25',
+    'Semester 2 / 25'
   ];
 
-  const ON_TIME_SEMESTER = [
-    /* paste On-Time % per semester */
-  ];
+  // IMPORTANT: numeric values (no % sign)
+  const ON_TIME_SEMESTER = [80.85, 62.81, 55.71, 74.47];
 
-  const TOTAL_ORDERS_SEMESTER = [
-    /* paste Total Orders per semester */
-  ];
+  const TOTAL_ORDERS_SEMESTER = [41923, 42701, 54089, 49444];
 
   new Chart(ordersCtx, {
     data: {
@@ -666,6 +663,7 @@ if (ordersCtx) {
           backgroundColor: '#6B7280',
           tension: 0.3,
           pointRadius: 5,
+          pointHoverRadius: 6,
           datalabels: {
             formatter: v => v + '%',
             color: '#6B7280',
@@ -683,6 +681,7 @@ if (ordersCtx) {
           backgroundColor: '#f59e0b',
           tension: 0.3,
           pointRadius: 5,
+          pointHoverRadius: 6,
           datalabels: {
             formatter: v => v.toLocaleString(),
             color: '#92400e',
@@ -694,32 +693,7 @@ if (ordersCtx) {
         }
       ]
     },
-    options: {
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: {
-          position: 'top',
-          fullSize: true,
-          align: 'start',
-          labels: { color: '#374151', padding: 32 }
-        }
-      },
-      scales: {
-        y: {
-          position: 'left',
-          min: 0,
-          max: 100,
-          ticks: { callback: v => v + '%' },
-          title: { display: true, text: 'On-Time Orders % (0–40m SLA)' }
-        },
-        y1: {
-          position: 'right',
-          grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Total Orders' }
-        }
-      }
-    }
+    options: buildDualAxisOptions('Total Orders', true) // keeps your same styling + lifted legend
   });
 }
 
