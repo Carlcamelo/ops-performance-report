@@ -693,7 +693,20 @@ if (ordersCtx) {
         }
       ]
     },
-    options: buildDualAxisOptions('Total Orders', true) // keeps your same styling + lifted legend
+    options: {
+  ...buildDualAxisOptions('Total Orders', true),
+
+  scales: {
+    ...buildDualAxisOptions('Total Orders', true).scales,
+
+    x: {
+      offset: true,
+      ticks: {
+        padding: 12
+      }
+    }
+  }
+}
   });
 }
 
