@@ -609,6 +609,30 @@ window.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+// Lines: secondary line for right axis (e.g., Total Orders)
+function lineDataset(label, data, formatter) {
+  return {
+    type: 'line',
+    label,
+    data,
+    yAxisID: 'y1',
+    borderColor: '#f59e0b',
+    backgroundColor: '#f59e0b',
+    tension: 0.3,
+    pointRadius: 4,
+    pointHoverRadius: 5,
+    datalabels: {
+      formatter,
+      color: AMBER_LABEL,
+      font: { size: 10, weight: 'bold' },
+      align: 'bottom',
+      anchor: 'end',
+      offset: 4
+    }
+  };
+}
+
+  
   // ---------- Card 2 ----------
   const ordersCtx = document.getElementById('onTimeVsOrdersChart');
   if (ordersCtx) {
@@ -617,7 +641,7 @@ window.addEventListener('DOMContentLoaded', () => {
         labels: LABELS,
         datasets: [
           onTimeDataset(),
-          barDataset('Total Orders', TOTAL_ORDERS, v => v.toLocaleString(), true)
+          lineDataset('Total Orders', TOTAL_ORDERS, v => v.toLocaleString())
         ]
       },
       options: buildDualAxisOptions('Total Orders', true)
