@@ -91,6 +91,7 @@ body{
   border-bottom: 1px solid #f3f4f6;
 }
 
+/* Campaign column */
 .kpi-campaign {
   font-weight: 900;
   color: #111827;
@@ -101,12 +102,14 @@ body{
   font-size: 0.85rem;
   color: #6b7280;
   margin-top: 0.15rem;
+  line-height: 1.4;
 }
 
+/* KPI grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* wider cards */
+  gap: 0.75rem;
 }
 
 .kpi-chip {
@@ -130,8 +133,11 @@ body{
   margin-top: 0.15rem;
 }
 
+/* Responsive */
 @media (max-width: 980px) {
-  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 
@@ -215,33 +221,33 @@ body{
     </p>
   </section>
 
-  <!-- Card 1 (Example) -->
-<!-- Card 1 -->
+ <!-- Card 1 -->
 <div class="card" id="card-1">
   <h2>1. Media KPI Snapshot</h2>
 
   <p class="text-sm text-gray-700">
-    Active campaigns and delivery performance summary (drivers, pacing to goal, spend, revenue, miles, and impressions).
+    Active campaigns and delivery performance summary, including drivers, pacing to goal,
+    spend, revenue, mileage, and impressions.
   </p>
 
   <div class="mt-4" style="overflow-x:auto;">
     <table class="kpi-table">
       <thead>
         <tr>
-          <th style="width: 22%;">Campaign</th>
-          <th style="width: 78%;">KPIs</th>
+          <th style="width:22%;">Campaign</th>
+          <th style="width:78%;">KPIs</th>
         </tr>
       </thead>
 
       <tbody>
-        <!-- Row 1 -->
+        <!-- Campaign: robot.com -->
         <tr>
           <td>
             <div class="kpi-campaign">robot.com</div>
             <div class="kpi-sub">
-  End date: 28/12/2025<br>
-  Duration: 2 months
-</div>
+              End date: 28/12/2025<br>
+              Duration: 2 months
+            </div>
           </td>
 
           <td>
@@ -284,11 +290,14 @@ body{
           </td>
         </tr>
 
-        <!-- Row 2 -->
+        <!-- Campaign: Ponce Law -->
         <tr>
           <td>
             <div class="kpi-campaign">Ponce Law</div>
-            <div class="kpi-sub">End date: 19/12/2025<br> Duration: 6 months</div>
+            <div class="kpi-sub">
+              End date: 19/12/2025<br>
+              Duration: 6 months
+            </div>
           </td>
 
           <td>
@@ -334,7 +343,11 @@ body{
       </tbody>
     </table>
   </div>
-</div>
+</div>  
+
+<!--Card final 1 -->
+
+  
 
 </div>
 
