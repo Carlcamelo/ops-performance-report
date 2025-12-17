@@ -172,7 +172,82 @@ body{
   border-color:#fecaca;
 }
 
+/* --- Executive callouts (Card 4) --- */
+.callout {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  background: #ffffff;
+}
 
+.callout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.badge-good { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.badge-risk { background: #fef2f2; color: #7f1d1d; border-color: #fecaca; }
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.kpi-mini {
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  border-radius: 0.75rem;
+  padding: 0.55rem 0.65rem;
+}
+
+.kpi-mini .k {
+  font-size: 0.72rem;
+  color: #6b7280;
+  font-weight: 800;
+}
+
+.kpi-mini .v {
+  margin-top: 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #111827;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #111827;
+  margin-top: 0.9rem;
+}
+
+.bullets {
+  margin-top: 0.45rem;
+  padding-left: 1.1rem;
+}
+
+.bullets li { margin-bottom: 0.45rem; }
+
+@media (max-width: 980px) {
+  .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
   
 </style>
@@ -436,6 +511,115 @@ body{
     <strong>Executive insight:</strong> In aggregate, the campaigns show a highly efficient cost per 1,000 miles at $124, outperforming U.S. Mobile OOH benchmarks. The CPM ($4.29) is higher than traditional benchmarks due to a conservative methodology based on actual miles driven rather than traffic-based estimates. This may have been influenced by the StreetMetrics multiplier and the transition from that platform to Unacast. Further exploration and deeper market analysis are required.
   </p>
 </div>
+
+
+<!-- Card 4 -->
+<div class="card" id="card-4">
+  <h2>4. Campaign Findings (High-Level)</h2>
+
+  <p class="text-sm text-gray-700">
+    This section summarizes the most relevant findings by campaign, focused on financial outcomes,
+    operational compliance, and contractual risk areas.
+  </p>
+
+  <!-- ROBOT.COM -->
+  <div class="mt-4">
+    <h3 style="font-size:1.05rem; font-weight:900; color:#111827;">robot.com — Execution & Cost Control</h3>
+
+    <ul class="text-sm text-gray-700" style="margin-top:0.6rem; padding-left:1.1rem;">
+      <li style="margin-bottom:0.5rem;">
+        <strong>Total spend:</strong> <strong>$19,350 USD</strong>
+        (<strong>$18,900</strong> launched + <strong>$450</strong> cancelled).
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Savings generated from cancellations:</strong> Original commitment was built around
+        <strong>~55 drivers</strong>, but we ultimately kept <strong>41 drivers</strong> who consistently reported mileage and campaign activity.
+        This ensured reporting quality and reduced unnecessary burn.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Financial impact:</strong> Potential cost at full commitment was <strong>$24,750</strong>.
+        Actual cost was <strong>$19,350</strong>, resulting in <strong>$5,400 USD in savings</strong>.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Primary drivers of savings:</strong>
+        <ul style="margin-top:0.35rem; padding-left:1.1rem;">
+          <li style="margin-bottom:0.3rem;">
+            Drivers who <strong>never installed the wrap</strong> were cancelled and removed from billing.
+          </li>
+          <li style="margin-bottom:0.3rem;">
+            <strong>Early cancellations</strong> (in some cases, only <strong>1 month paid</strong>) reduced total campaign liability.
+          </li>
+        </ul>
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>High-level takeaway:</strong> Strong cost discipline through cancellations improved unit economics and reduced risk,
+        while maintaining a core set of drivers with reliable reporting.
+      </li>
+    </ul>
+  </div>
+
+  <!-- PONCE LAW -->
+  <div class="mt-4">
+    <h3 style="font-size:1.05rem; font-weight:900; color:#111827;">Ponce Law — Compliance, Contract Risk & Evidence</h3>
+
+    <ul class="text-sm text-gray-700" style="margin-top:0.6rem; padding-left:1.1rem;">
+      <li style="margin-bottom:0.5rem;">
+        <strong>Driver credits / mileage delivery:</strong> We currently have credit for <strong>5 drivers</strong> who met mileage targets.
+        For <strong>December</strong>, we have <strong>4 credited</strong> today, with expectation to return to <strong>5</strong> once the final driver is confirmed.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Background checks:</strong> Most drivers show background-check infractions; however,
+        only <strong>one</strong> driver has <strong>recent findings</strong> that could justify contract termination.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Contract governance gap:</strong> All drivers signed an <strong>older contract version</strong> (2022–2023).
+        During renewals, <strong>no updated contracts</strong> were executed. One contract even shows a signature date of <strong>1958</strong>,
+        indicating poor controls and lack of review by the previous team.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Contract coverage:</strong> At a high level, the legacy agreement is similar to the current version, but it is missing
+        key clauses that provide stronger protections. This is <strong>pending legal / operational review</strong>.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Proof of installation:</strong> We found photos for only <strong>4 vehicles</strong> with the wrap installed.
+        The remaining evidence is either missing or buried in prior email threads.
+        We will reconfirm with drivers and request updated photos; expectation is that wraps remain installed.
+      </li>
+    </ul>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="mt-4">
+    <h3 style="font-size:1.05rem; font-weight:900; color:#111827;">Executive Summary — Cross-Campaign Findings</h3>
+
+    <ul class="text-sm text-gray-700" style="margin-top:0.6rem; padding-left:1.1rem;">
+      <li style="margin-bottom:0.5rem;">
+        <strong>Cost efficiency:</strong> robot.com benefited from active cancellation management, generating
+        <strong>$5.4K USD savings</strong> vs. original commitment, while protecting data quality by retaining only reliable drivers.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Operational risk concentration:</strong> Ponce Law’s primary risk is <strong>governance and compliance</strong>
+        (legacy contracts, incomplete documentation, and background-check follow-up) rather than immediate delivery performance.
+      </li>
+
+      <li style="margin-bottom:0.5rem;">
+        <strong>Immediate priorities:</strong>
+        (1) complete photo evidence collection, (2) standardize contract versioning and renewals,
+        and (3) tighten cancellation/termination pathways tied to compliance and reporting performance.
+      </li>
+    </ul>
+  </div>
+</div>
+
 
 </div>
 
