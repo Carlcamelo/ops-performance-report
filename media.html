@@ -147,6 +147,34 @@ body{
 @media (max-width: 980px) {
   .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  padding:.35rem .55rem;
+  border-radius:.65rem;
+  font-weight:800;
+  font-size:.85rem;
+  border:1px solid transparent;
+  white-space:nowrap;
+}
+
+.status-good{
+  background:#ecfdf5;
+  color:#065f46;
+  border-color:#a7f3d0;
+}
+
+.status-bad{
+  background:#fef2f2;
+  color:#7f1d1d;
+  border-color:#fecaca;
+}
+
+
+
+  
 </style>
 </head>
 
@@ -322,136 +350,98 @@ body{
     </p>
   </div>
 
-  <!-- Card 3 -->
-  <div class="card" id="card-3">
-    <h2>3. Unit Economics: Cost Efficiency & CPM</h2>
+<!-- Card 3 -->
+<div class="card" id="card-3">
+  <h2>3. Unit Economics: Cost Efficiency & CPM</h2>
 
-    <p class="text-sm text-gray-700">
-      This section benchmarks unit economics by campaign using two standard Mobile OOH efficiency lenses:
-      <strong>Cost per 1,000 miles</strong> (delivery efficiency) and <strong>CPM</strong> (media efficiency).
-    </p>
+  <p class="text-sm text-gray-700">
+    Unit economics by campaign against Mobile OOH benchmarks. This view is intentionally tabular for clarity
+    (results, benchmark range, and status/gap in one place).
+  </p>
 
-    <div class="chart-container">
-      <canvas id="costPer1000MilesChart"></canvas>
-    </div>
-
-    <p class="text-sm text-gray-700 mt-4">
-      ✅ <strong>Strong operational efficiency:</strong> Cost per distance is at or below the low end of the market range.
-    </p>
-
-    <div class="chart-container">
-      <canvas id="cpmByCampaignChart"></canvas>
-    </div>
-
-    <p class="text-sm text-gray-700 mt-4">
-      ❌ CPM appears above traditional benchmarks due to a conservative approach based on <strong>executed miles</strong>
-      (real delivery) rather than modeled traffic estimates.
-    </p>
-
-    <p class="text-sm text-gray-700 mt-4">
-      <strong>Executive insight:</strong> En agregado, las campañas muestran un cost per 1,000 miles altamente eficiente
-      ($124) frente a benchmarks de Mobile OOH en EE. UU. El CPM ($4.29) es superior al benchmark tradicional debido a un
-      enfoque conservador y basado en millas ejecutadas reales, no en estimaciones de tráfico. Y que puede haberse influido
-      también por el múltiple de StreetMetrics y el cambio de plataforma de ese a Unacast; toca seguir explorando y entendiendo
-      el mercado.
-    </p>
+  <!-- Table: Cost per 1,000 Miles -->
+  <div class="mt-4" style="overflow-x:auto;">
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th style="width: 26%;">Campaign</th>
+          <th style="width: 18%;">Cost / 1,000 miles</th>
+          <th style="width: 18%;">Benchmark</th>
+          <th style="width: 38%;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>robot.com</strong></td>
+          <td><strong>$119.95</strong></td>
+          <td>$120–300</td>
+          <td>
+            <span class="status-pill status-good">● Very Good</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Ponce Law</strong></td>
+          <td><strong>$133.83</strong></td>
+          <td>$120–300</td>
+          <td>
+            <span class="status-pill status-good">● Very Competitive</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <p class="text-sm text-gray-700 mt-4">
+    ✅ <strong>Strong operational efficiency:</strong> Cost per distance is at (or below) the low end of market benchmarks.
+  </p>
+
+  <!-- Table: CPM -->
+  <div class="mt-4" style="overflow-x:auto;">
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th style="width: 26%;">Campaign</th>
+          <th style="width: 18%;">CPM (USD)</th>
+          <th style="width: 18%;">Benchmark</th>
+          <th style="width: 38%;">Gap vs. Benchmark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>robot.com</strong></td>
+          <td><strong>$3.98</strong></td>
+          <td>$0.15–0.75</td>
+          <td>
+            <span class="status-pill status-bad">● ~5–20× High</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Ponce Law</strong></td>
+          <td><strong>$5.03</strong></td>
+          <td>$0.15–0.75</td>
+          <td>
+            <span class="status-pill status-bad">● ~7–30× High</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-gray-700 mt-4">
+    ❌ <strong>CPM is above traditional benchmarks</strong> due to a conservative approach based on <strong>executed miles</strong>
+    (real delivery) rather than modeled traffic estimates.
+  </p>
+
+  <p class="text-sm text-gray-700 mt-4">
+    <strong>Executive insight:</strong> En agregado, las campañas muestran un cost per 1,000 miles altamente eficiente
+    ($124) frente a benchmarks de Mobile OOH en EE. UU. El CPM ($4.29) es superior al benchmark tradicional debido a un
+    enfoque conservador y basado en millas ejecutadas reales, no en estimaciones de tráfico. Esto puede haber sido influido
+    por el múltiplo de StreetMetrics y el cambio de plataforma de ese a Unacast; toca seguir explorando y entendiendo el mercado.
+  </p>
+</div>
 
 </div>
 
-<!-- Charts JS -->
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-  if (!window.Chart) return;
-  if (window.ChartDataLabels) Chart.register(ChartDataLabels);
-
-  // ---------- Card 3A: Cost per 1,000 Miles ----------
-  const costCanvas = document.getElementById('costPer1000MilesChart');
-  if (costCanvas) {
-    const CAMPAIGNS_COST = ['robot.com', 'Ponce Law'];
-    const COST_PER_1000_MILES = [119.95, 133.83];
-
-    new Chart(costCanvas, {
-      type: 'bar',
-      data: {
-        labels: CAMPAIGNS_COST,
-        datasets: [{
-          label: 'Cost per 1,000 Miles (USD)',
-          data: COST_PER_1000_MILES,
-          backgroundColor: '#fde047',
-          borderColor: '#facc15',
-          borderWidth: 1,
-          datalabels: {
-            formatter: v => '$' + v.toFixed(2),
-            color: '#92400e',
-            font: { size: 11, weight: 'bold' },
-            anchor: 'end',
-            align: 'top',
-            offset: 4
-          }
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'top', align: 'start', labels: { color: '#374151', padding: 24 } },
-          tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}` } }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { callback: v => '$' + v },
-            title: { display: true, text: 'USD per 1,000 miles' }
-          }
-        }
-      }
-    });
-  }
-
-  // ---------- Card 3B: CPM ----------
-  const cpmCanvas = document.getElementById('cpmByCampaignChart');
-  if (cpmCanvas) {
-    const CAMPAIGNS_CPM = ['robot.com', 'Ponce Law'];
-    const CPM_VALUES = [3.98, 5.03];
-
-    new Chart(cpmCanvas, {
-      type: 'bar',
-      data: {
-        labels: CAMPAIGNS_CPM,
-        datasets: [{
-          label: 'CPM (USD)',
-          data: CPM_VALUES,
-          backgroundColor: '#fecaca',
-          borderColor: '#ef4444',
-          borderWidth: 1,
-          datalabels: {
-            formatter: v => '$' + Number(v).toFixed(2),
-            color: '#7f1d1d',
-            font: { size: 11, weight: 'bold' },
-            anchor: 'end',
-            align: 'top',
-            offset: 4
-          }
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'top', align: 'start', labels: { color: '#374151', padding: 24 } },
-          tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: $${Number(ctx.parsed.y).toFixed(2)}` } }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { callback: v => '$' + v },
-            title: { display: true, text: 'USD per 1,000 impressions (CPM)' }
-          }
-        }
-      }
-    });
-  }
-});
-</script>
 
 </body>
 </html>
