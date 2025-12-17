@@ -69,6 +69,73 @@ body{
 }
 
 .btn:hover{ background:#ffedd5; }
+
+/* --- Media Card 1: compact KPI table --- */
+.kpi-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.kpi-table th {
+  text-align: left;
+  font-size: 0.85rem;
+  color: #6b7280;
+  padding: 0.75rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.kpi-table td {
+  vertical-align: top;
+  padding: 0.9rem 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.kpi-campaign {
+  font-weight: 900;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.kpi-sub {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 0.15rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.kpi-chip {
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.6rem;
+  min-height: 56px;
+}
+
+.kpi-chip .label {
+  font-size: 0.72rem;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.kpi-chip .value {
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: #374151;
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 980px) {
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+  
 </style>
 </head>
 
@@ -149,19 +216,122 @@ body{
   </section>
 
   <!-- Card 1 (Example) -->
-  <div class="card" id="card-1">
-    <h2>1. Media KPI Snapshot (Example)</h2>
+<!-- Card 1 -->
+<div class="card" id="card-1">
+  <h2>1. Media KPI Snapshot</h2>
 
-    <p class="text-sm text-gray-700">
-      This section will summarize the core Media KPIs (e.g., <strong>miles delivered</strong>, <strong>impressions</strong>,
-      <strong>active vehicles</strong>, and <strong>campaign compliance</strong>). We will add charts and insights here next.
-    </p>
+  <p class="text-sm text-gray-700">
+    Active campaigns and delivery performance summary (drivers, pacing to goal, spend, revenue, miles, and impressions).
+  </p>
 
-    <!-- Placeholder area to keep layout consistent while we build -->
-    <div class="mt-4" style="border:1px dashed #fcd34d; border-radius:0.8rem; padding:1rem; background:#fffbeb;">
-      <p class="text-sm text-gray-700"><strong>Placeholder:</strong> Chart / table goes here.</p>
-    </div>
+  <div class="mt-4" style="overflow-x:auto;">
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Campaign</th>
+          <th style="width: 78%;">KPIs</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Row 1 -->
+        <tr>
+          <td>
+            <div class="kpi-campaign">robot.com</div>
+            <div class="kpi-sub">End date: 28/12/2025 · Duration: 2 months</div>
+          </td>
+
+          <td>
+            <div class="kpi-grid">
+              <div class="kpi-chip">
+                <div class="label">Drivers</div>
+                <div class="value">50</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Drivers Achieved</div>
+                <div class="value">41 (82% achieved)</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Campaign Cost</div>
+                <div class="value">$18,450</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Revenue</div>
+                <div class="value">$0</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Profit</div>
+                <div class="value">-$18,450</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Miles Driven</div>
+                <div class="value">153,818 (312% achieved)</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Impressions</div>
+                <div class="value">4,639,773 (74% achieved)</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Row 2 -->
+        <tr>
+          <td>
+            <div class="kpi-campaign">Ponce Law</div>
+            <div class="kpi-sub">End date: 19/12/2025 · Duration: 6 months</div>
+          </td>
+
+          <td>
+            <div class="kpi-grid">
+              <div class="kpi-chip">
+                <div class="label">Drivers</div>
+                <div class="value">6</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Drivers Achieved</div>
+                <div class="value">6 (100% achieved)</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Campaign Cost</div>
+                <div class="value">$9,900</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Revenue</div>
+                <div class="value">$15,000</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Profit</div>
+                <div class="value">$5,100</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Miles Driven</div>
+                <div class="value">73,976 (342% achieved)</div>
+              </div>
+
+              <div class="kpi-chip">
+                <div class="label">Impressions</div>
+                <div class="value">1,968,894 (71% achieved)</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
+</div>
 
 </div>
 
