@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Media Report</title>
 
+<!-- Chart.js + DataLabels (needed for Card 3 charts) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0" defer></script>
+
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -70,6 +74,13 @@ body{
 
 .btn:hover{ background:#ffedd5; }
 
+/* Chart container (same style as robotics report) */
+.chart-container{
+  position: relative;
+  height: 340px;
+  margin-top: 1rem;
+}
+
 /* --- Media Card 1: compact KPI table --- */
 .kpi-table {
   width: 100%;
@@ -105,10 +116,10 @@ body{
   line-height: 1.4;
 }
 
-/* KPI grid */
+/* KPI grid (3 cols to keep Miles/Impressions on one line) */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* wider cards */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
@@ -133,15 +144,9 @@ body{
   margin-top: 0.15rem;
 }
 
-/* Responsive */
 @media (max-width: 980px) {
-  .kpi-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-
-
-  
 </style>
 </head>
 
@@ -168,7 +173,7 @@ body{
 
   <!-- Context -->
   <section class="card text-center" id="context">
-    <h2>Report Context: Media Performance</h2>
+    <h2>Report Context: Media Performance and Growth Drivers</h2>
 
     <p class="text-sm text-gray-700">
       This report summarizes <strong>Media performance</strong> across key growth drivers such as
@@ -183,7 +188,6 @@ body{
       high-level questions.
     </p>
 
-    <!-- Buttons -->
     <div class="mt-4" style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
       <a
         href="https://docs.google.com/spreadsheets/d/1D5dMicrrhSE42FY2sfrZ11dXTm9cC2TJFoh_D1Ryp7Y/edit?usp=sharing"
@@ -221,235 +225,233 @@ body{
     </p>
   </section>
 
- <!-- Card 1 -->
-<div class="card" id="card-1">
-  <h2>1. Media KPI Snapshot</h2>
+  <!-- Card 1 -->
+  <div class="card" id="card-1">
+    <h2>1. Media KPI Snapshot</h2>
 
-  <p class="text-sm text-gray-700">
-    Active campaigns and delivery performance summary, including drivers, pacing to goal,
-    spend, revenue, mileage, and impressions.
-  </p>
+    <p class="text-sm text-gray-700">
+      Active campaigns and delivery performance summary, including drivers, pacing to goal,
+      spend, revenue, mileage, and impressions.
+    </p>
 
-  <div class="mt-4" style="overflow-x:auto;">
-    <table class="kpi-table">
-      <thead>
-        <tr>
-          <th style="width:22%;">Campaign</th>
-          <th style="width:78%;">KPIs</th>
-        </tr>
-      </thead>
+    <div class="mt-4" style="overflow-x:auto;">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th style="width:22%;">Campaign</th>
+            <th style="width:78%;">KPIs</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <!-- Campaign: robot.com -->
-        <tr>
-          <td>
-            <div class="kpi-campaign">robot.com</div>
-            <div class="kpi-sub">
-              End date: 28/12/2025<br>
-              Duration: 2 months
-            </div>
-          </td>
-
-          <td>
-            <div class="kpi-grid">
-              <div class="kpi-chip">
-                <div class="label">Drivers</div>
-                <div class="value">50</div>
+        <tbody>
+          <tr>
+            <td>
+              <div class="kpi-campaign">robot.com</div>
+              <div class="kpi-sub">
+                End date: 28/12/2025<br>
+                Duration: 2 months
               </div>
+            </td>
 
-              <div class="kpi-chip">
-                <div class="label">Drivers Achieved</div>
-                <div class="value">41 (82% achieved)</div>
+            <td>
+              <div class="kpi-grid">
+                <div class="kpi-chip"><div class="label">Drivers</div><div class="value">50</div></div>
+                <div class="kpi-chip"><div class="label">Drivers Achieved</div><div class="value">41 (82% achieved)</div></div>
+                <div class="kpi-chip"><div class="label">Campaign Cost</div><div class="value">$18,450</div></div>
+                <div class="kpi-chip"><div class="label">Revenue</div><div class="value">$0</div></div>
+                <div class="kpi-chip"><div class="label">Profit</div><div class="value">-$18,450</div></div>
+                <div class="kpi-chip"><div class="label">Miles Driven</div><div class="value">153,818 (312% achieved)</div></div>
+                <div class="kpi-chip"><div class="label">Impressions</div><div class="value">4,639,773 (74% achieved)</div></div>
               </div>
+            </td>
+          </tr>
 
-              <div class="kpi-chip">
-                <div class="label">Campaign Cost</div>
-                <div class="value">$18,450</div>
+          <tr>
+            <td>
+              <div class="kpi-campaign">Ponce Law</div>
+              <div class="kpi-sub">
+                End date: 19/12/2025<br>
+                Duration: 6 months
               </div>
+            </td>
 
-              <div class="kpi-chip">
-                <div class="label">Revenue</div>
-                <div class="value">$0</div>
+            <td>
+              <div class="kpi-grid">
+                <div class="kpi-chip"><div class="label">Drivers</div><div class="value">6</div></div>
+                <div class="kpi-chip"><div class="label">Drivers Achieved</div><div class="value">6 (100% achieved)</div></div>
+                <div class="kpi-chip"><div class="label">Campaign Cost</div><div class="value">$9,900</div></div>
+                <div class="kpi-chip"><div class="label">Revenue</div><div class="value">$15,000</div></div>
+                <div class="kpi-chip"><div class="label">Profit</div><div class="value">$5,100</div></div>
+                <div class="kpi-chip"><div class="label">Miles Driven</div><div class="value">73,976 (342% achieved)</div></div>
+                <div class="kpi-chip"><div class="label">Impressions</div><div class="value">1,968,894 (71% achieved)</div></div>
               </div>
+            </td>
+          </tr>
 
-              <div class="kpi-chip">
-                <div class="label">Profit</div>
-                <div class="value">-$18,450</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Miles Driven</div>
-                <div class="value">153,818 (312% achieved)</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Impressions</div>
-                <div class="value">4,639,773 (74% achieved)</div>
-              </div>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Campaign: Ponce Law -->
-        <tr>
-          <td>
-            <div class="kpi-campaign">Ponce Law</div>
-            <div class="kpi-sub">
-              End date: 19/12/2025<br>
-              Duration: 6 months
-            </div>
-          </td>
-
-          <td>
-            <div class="kpi-grid">
-              <div class="kpi-chip">
-                <div class="label">Drivers</div>
-                <div class="value">6</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Drivers Achieved</div>
-                <div class="value">6 (100% achieved)</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Campaign Cost</div>
-                <div class="value">$9,900</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Revenue</div>
-                <div class="value">$15,000</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Profit</div>
-                <div class="value">$5,100</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Miles Driven</div>
-                <div class="value">73,976 (342% achieved)</div>
-              </div>
-
-              <div class="kpi-chip">
-                <div class="label">Impressions</div>
-                <div class="value">1,968,894 (71% achieved)</div>
-              </div>
-            </div>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
-</div>  
-
-<!--Card final 1 -->
-
-<!-- Card 2 -->
-<div class="card" id="card-2">
-  <h2>2. Overall Media Performance (All Active Campaigns)</h2>
-
-  <p class="text-sm text-gray-700">
-    Consolidated snapshot across all active campaigns. Some metrics may not be fully
-    available at the global level depending on data completeness and aggregation rules.
-  </p>
-
-  <div class="mt-4">
-    <div class="kpi-grid">
-      <div class="kpi-chip">
-        <div class="label">Total Campaigns</div>
-        <div class="value">2 Campaigns</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Total Drivers (Target)</div>
-        <div class="value">56</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Drivers Achieved</div>
-        <div class="value">84% (47 / 56)</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Campaign Cost</div>
-        <div class="value">$28,350</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Revenue</div>
-        <div class="value">$15,000</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Profit</div>
-        <div class="value">-$13,350</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Miles Driven</div>
-        <div class="value">227,794 (321% achieved)</div>
-      </div>
-
-      <div class="kpi-chip">
-        <div class="label">Impressions</div>
-        <div class="value">6,608,667 (73% achieved)</div>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <p class="text-sm text-gray-700 mt-4">
-    <strong>Executive insight:</strong> Mileage delivery is significantly outperforming
-    target, while impressions are pacing below goal. This gap suggests that
-    <strong>route density, urban coverage, and impression yield per mile</strong> are the
-    primary levers to improve media efficiency rather than increasing mileage alone.
-  </p>
-</div>
+  <!-- Card 2 -->
+  <div class="card" id="card-2">
+    <h2>2. Overall Media Performance (All Active Campaigns)</h2>
 
-<!--Card final 2 -->
+    <p class="text-sm text-gray-700">
+      Consolidated snapshot across all active campaigns. Some metrics may not be fully
+      available at the global level depending on data completeness and aggregation rules.
+    </p>
 
-<!-- Card 3 -->
-<div class="card" id="card-3">
-  <h2>3. Unit Economics: Cost Efficiency & CPM</h2>
+    <div class="mt-4">
+      <div class="kpi-grid">
+        <div class="kpi-chip"><div class="label">Total Campaigns</div><div class="value">2 Campaigns</div></div>
+        <div class="kpi-chip"><div class="label">Total Drivers (Target)</div><div class="value">56</div></div>
+        <div class="kpi-chip"><div class="label">Drivers Achieved</div><div class="value">84% (47 / 56)</div></div>
+        <div class="kpi-chip"><div class="label">Campaign Cost</div><div class="value">$28,350</div></div>
+        <div class="kpi-chip"><div class="label">Revenue</div><div class="value">$15,000</div></div>
+        <div class="kpi-chip"><div class="label">Profit</div><div class="value">-$13,350</div></div>
+        <div class="kpi-chip"><div class="label">Miles Driven</div><div class="value">227,794 (321% achieved)</div></div>
+        <div class="kpi-chip"><div class="label">Impressions</div><div class="value">6,608,667 (73% achieved)</div></div>
+      </div>
+    </div>
 
-  <p class="text-sm text-gray-700">
-    This section benchmarks unit economics by campaign using two Mobile OOH efficiency lenses:
-    <strong>Cost per 1,000 miles</strong> (delivery efficiency) and <strong>CPM</strong> (media efficiency).
-  </p>
-
-  <!-- Chart 3A -->
-  <div class="chart-container">
-    <canvas id="costPer1000MilesChart"></canvas>
+    <p class="text-sm text-gray-700 mt-4">
+      <strong>Executive insight:</strong> Mileage delivery is significantly outperforming target, while impressions
+      are pacing below goal. This gap suggests that <strong>route density, urban coverage, and impression yield per mile</strong>
+      are the primary levers to improve media efficiency rather than increasing mileage alone.
+    </p>
   </div>
 
-  <p class="text-sm text-gray-700 mt-4">
-    ✅ <strong>Strong operational efficiency:</strong> Cost per distance is at or below the low end of the market.
-  </p>
+  <!-- Card 3 -->
+  <div class="card" id="card-3">
+    <h2>3. Unit Economics: Cost Efficiency & CPM</h2>
 
-  <!-- Chart 3B -->
-  <div class="chart-container">
-    <canvas id="cpmByCampaignChart"></canvas>
+    <p class="text-sm text-gray-700">
+      This section benchmarks unit economics by campaign using two standard Mobile OOH efficiency lenses:
+      <strong>Cost per 1,000 miles</strong> (delivery efficiency) and <strong>CPM</strong> (media efficiency).
+    </p>
+
+    <div class="chart-container">
+      <canvas id="costPer1000MilesChart"></canvas>
+    </div>
+
+    <p class="text-sm text-gray-700 mt-4">
+      ✅ <strong>Strong operational efficiency:</strong> Cost per distance is at or below the low end of the market range.
+    </p>
+
+    <div class="chart-container">
+      <canvas id="cpmByCampaignChart"></canvas>
+    </div>
+
+    <p class="text-sm text-gray-700 mt-4">
+      ❌ CPM appears above traditional benchmarks due to a conservative approach based on <strong>executed miles</strong>
+      (real delivery) rather than modeled traffic estimates.
+    </p>
+
+    <p class="text-sm text-gray-700 mt-4">
+      <strong>Executive insight:</strong> En agregado, las campañas muestran un cost per 1,000 miles altamente eficiente
+      ($124) frente a benchmarks de Mobile OOH en EE. UU. El CPM ($4.29) es superior al benchmark tradicional debido a un
+      enfoque conservador y basado en millas ejecutadas reales, no en estimaciones de tráfico. Y que puede haberse influido
+      también por el múltiple de StreetMetrics y el cambio de plataforma de ese a Unacast; toca seguir explorando y entendiendo
+      el mercado.
+    </p>
   </div>
 
-  <p class="text-sm text-gray-700 mt-4">
-    ❌ CPM is above traditional benchmarks due to a conservative approach based on <strong>executed miles</strong>
-    (real delivery) rather than modeled traffic estimates.
-  </p>
-
-  <p class="text-sm text-gray-700 mt-4">
-    <strong>Executive insight:</strong> En agregado, las campañas muestran un cost per 1,000 miles altamente eficiente
-    ($124) frente a benchmarks de Mobile OOH en EE. UU. El CPM ($4.29) es superior al benchmark tradicional debido a un
-    enfoque conservador y basado en millas ejecutadas reales, no en estimaciones de tráfico. Esto puede haber sido influido
-    también por el múltiplo de StreetMetrics y el cambio de plataforma de ese a Unacast; toca seguir explorando y entendiendo
-    el mercado.
-  </p>
 </div>
 
-  <!--Card final 3 -->
+<!-- Charts JS -->
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  if (!window.Chart) return;
+  if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
-</div>
+  // ---------- Card 3A: Cost per 1,000 Miles ----------
+  const costCanvas = document.getElementById('costPer1000MilesChart');
+  if (costCanvas) {
+    const CAMPAIGNS_COST = ['robot.com', 'Ponce Law'];
+    const COST_PER_1000_MILES = [119.95, 133.83];
+
+    new Chart(costCanvas, {
+      type: 'bar',
+      data: {
+        labels: CAMPAIGNS_COST,
+        datasets: [{
+          label: 'Cost per 1,000 Miles (USD)',
+          data: COST_PER_1000_MILES,
+          backgroundColor: '#fde047',
+          borderColor: '#facc15',
+          borderWidth: 1,
+          datalabels: {
+            formatter: v => '$' + v.toFixed(2),
+            color: '#92400e',
+            font: { size: 11, weight: 'bold' },
+            anchor: 'end',
+            align: 'top',
+            offset: 4
+          }
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', align: 'start', labels: { color: '#374151', padding: 24 } },
+          tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}` } }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: v => '$' + v },
+            title: { display: true, text: 'USD per 1,000 miles' }
+          }
+        }
+      }
+    });
+  }
+
+  // ---------- Card 3B: CPM ----------
+  const cpmCanvas = document.getElementById('cpmByCampaignChart');
+  if (cpmCanvas) {
+    const CAMPAIGNS_CPM = ['robot.com', 'Ponce Law'];
+    const CPM_VALUES = [3.98, 5.03];
+
+    new Chart(cpmCanvas, {
+      type: 'bar',
+      data: {
+        labels: CAMPAIGNS_CPM,
+        datasets: [{
+          label: 'CPM (USD)',
+          data: CPM_VALUES,
+          backgroundColor: '#fecaca',
+          borderColor: '#ef4444',
+          borderWidth: 1,
+          datalabels: {
+            formatter: v => '$' + Number(v).toFixed(2),
+            color: '#7f1d1d',
+            font: { size: 11, weight: 'bold' },
+            anchor: 'end',
+            align: 'top',
+            offset: 4
+          }
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', align: 'start', labels: { color: '#374151', padding: 24 } },
+          tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: $${Number(ctx.parsed.y).toFixed(2)}` } }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: v => '$' + v },
+            title: { display: true, text: 'USD per 1,000 impressions (CPM)' }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>
